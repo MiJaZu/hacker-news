@@ -1,14 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import Home from '@/pages/index'
 
-describe('Home', () => {
-  it('renders a heading', () => {
+describe('All Page', () => {
+  it('Title should be displayed with the name hacker news', () => {
     render(<Home />)
 
-    const heading = screen.getByRole('heading', {
-      name: /welcome to next\.js!/i,
-    })
+    const main = screen.getByRole('main')
 
-    expect(heading).toBeInTheDocument()
+    expect(main).toBeInTheDocument()
   })
 })

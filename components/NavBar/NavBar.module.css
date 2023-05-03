@@ -1,0 +1,13 @@
+.title_style {
+  width: 13rem;
+  height: 1.75rem;
+  object-fit: contain;
+  font-family: Baskerville;
+  font-size: 1.75rem;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #3b3b3b;
+}

@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "@/components/NavBar/NavBar.module.css";
 
 interface NavBarProps {

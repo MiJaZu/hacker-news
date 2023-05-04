@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/react'
+import React, { render, screen } from '@testing-library/react'
 import NavBar from '@/components/NavBar'
 
-describe('All Page', () => {
+describe('NavBar component', () => {
   it('Title should be displayed with the Name HACKER NEWS', () => {
     const navTitle = 'HACKER NEWS';
     render(<NavBar title={navTitle} />)

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import React, { render, screen } from '@testing-library/react'
 import Home from '@/pages/index'
 
 describe('All Page', () => {

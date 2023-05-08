@@ -16,7 +16,7 @@ interface DropdownProps {
 export default function Dropdown({ options }: DropdownProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (): void => {
     setIsOpen((prevState) => !prevState);
   };
 

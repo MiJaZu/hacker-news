@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/localforage": "^0.0.34",
+    "@types/react-paginate": "^7.1.1",
     "localforage": "^1.10.0",
     "moment": "^2.29.4",
     "next": "latest",

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaHeart, FaRegHeart, FaRegClock } from "react-icons/fa";
 import styles from "./PostItem.module.css";
-import { Hit } from "models/Hit";
+import { type Hit } from "models/Hit";
 import localforage from "localforage";
 import { POSTS_KEY } from "utils/localStorage";
 
@@ -19,19 +19,32 @@ export default function PostItem({ hit, index }: PostItemProps): JSX.Element {
     return hits;
   };
 
-  const handleLikeClick = async (
+  const handleLikeClick = (
     event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  ): void => {
     // Avoid the propagation of the url click event
     event.preventDefault();
-    let hits = await getLikedPosts();
-    hits[index] = { ...hits[index], liked: !isFave };
-    localforage.setItem(POSTS_KEY, hits);
-    setIsFave(!isFave);
+    getLikedPosts()
+      .then((hits) => {
+        const likedHits = [...hits];
+        likedHits[index] = { ...hits[index], liked: !isFave };
+        localforage
+          .setItem(POSTS_KEY, likedHits)
+          .then(() => {
+            setIsFave(!isFave);
+          })
+          .catch((error) => { console.error(error); });
+      })
+      .catch((error) => { console.error(error); });
   };
 
   return (
-    <a target="_blank" href={hit.url} className={styles.container}>
+    <a
+      target="_blank"
+      href={hit.url}
+      className={styles.container}
+      rel="noreferrer"
+    >
       <div className={styles.containerContent}>
         <div className={styles.containerTime}>
           <FaRegClock />

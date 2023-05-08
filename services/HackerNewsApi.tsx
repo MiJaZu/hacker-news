@@ -1,4 +1,4 @@
-import { Hit } from "models/Hit";
+import { type Hit } from "models/Hit";
 
 export interface ApiResponse<T> {
   hits: Hit[];
@@ -9,7 +9,7 @@ export async function getHackerNews<T>(
   query: string = "",
   page: number = 0
 ): Promise<ApiResponse<T>> {
-  return (
+  return await (
     await fetch(
       `http://hn.algolia.com/api/v1/search?query=${query}&page=${page}`
     )

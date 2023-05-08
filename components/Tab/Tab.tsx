@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import styles from "@/components/Tab/Tab.module.css";
 
+interface TabHandler {
+  activeTab: number;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+}
+
 interface TabsProps {
   headerTabs: string[];
   panelTabs: JSX.Element[];
+  tabHandler: TabHandler;
 }
 
-export default function Tab({ headerTabs, panelTabs }: TabsProps): JSX.Element {
-  const [activeTab, setActiveTab] = useState(0);
-
+export default function Tab({
+  headerTabs,
+  panelTabs,
+  tabHandler: { activeTab, setActiveTab },
+}: TabsProps): JSX.Element {
   const handleToggle = (index: number): void => {
     setActiveTab(index);
   };
@@ -32,13 +40,7 @@ export default function Tab({ headerTabs, panelTabs }: TabsProps): JSX.Element {
           </li>
         ))}
       </ul>
-      <div>
-        {panelTabs.map((panelTab, index) => (
-          <div key={`panel-tab-${index}`}>
-            {activeTab === index && panelTab}
-          </div>
-        ))}
-      </div>
+      {panelTabs.map((panelTab, index) => activeTab === index && panelTab)}
     </div>
   );
 }

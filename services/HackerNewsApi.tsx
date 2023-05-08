@@ -1,10 +1,17 @@
-export async function getHackerNews(
+import { Hit } from "models/Hit";
+
+export interface ApiResponse<T> {
+  hits: Hit[];
+  data: T;
+}
+
+export async function getHackerNews<T>(
   query: string = "",
   page: number = 0
-): Promise<any> {
+): Promise<ApiResponse<T>> {
   return (
     await fetch(
       `http://hn.algolia.com/api/v1/search?query=${query}&page=${page}`
     )
-  ).json;
+  ).json();
 }

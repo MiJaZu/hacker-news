@@ -3,7 +3,7 @@ import Head from "next/head";
 import NavBar from "@/components/NavBar";
 import Tabs from "@/components/Tab";
 import AllHits from "./AllHits";
-import MyFaves from "./MyFaves/MyFaves";
+import MyFaves from "./MyFaves";
 import localforage from "localforage";
 import { POSTS_KEY } from "utils/localStorage";
 import { type Hit } from "models/Hit";
@@ -29,11 +29,11 @@ export default function Home(): JSX.Element {
       const data = await getHackerNews();
       localHits = data.hits
         .filter(
-          (hit) => hit.created_at !== "" && hit.title !== "" && hit.url !== ""
+          (hit) => hit.created_at_i !== "" && hit.title !== "" && hit.url !== ""
         )
         .map((hit) => ({
           url: hit.url,
-          created_at_i: formatDate(hit.created_at),
+          created_at_i: formatDate(hit.created_at_i),
           title: hit.title,
           liked: false,
         }));

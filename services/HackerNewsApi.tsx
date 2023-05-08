@@ -11,7 +11,7 @@ export async function getHackerNews<T>(
 ): Promise<ApiResponse<T>> {
   return await (
     await fetch(
-      `http://hn.algolia.com/api/v1/search?query=${query}&page=${page}`
+      `https://hn.algolia.com/api/v1/search?query=${query}&page=${page}`
     )
   ).json();
 }

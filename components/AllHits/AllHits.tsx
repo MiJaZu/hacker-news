@@ -1,7 +1,7 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
 import PostItem from "@/components/PostItem";
-import styles from "./AllPosts.module.css";
+import styles from "./AllHits.module.css";
 
 import Dropdown, { type DropDownOption } from "@/components/Dropdown/Dropdown";
 import { type Hit } from "models/Hit";

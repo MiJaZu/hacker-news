@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { FaHeart, FaRegHeart, FaRegClock } from "react-icons/fa";
 import styles from "./PostItem.module.css";
 import { type Hit } from "models/Hit";
-import localforage from "localforage";
-import { POSTS_KEY } from "utils/localStorage";
 
 interface PostItemProps {
   hit: Hit;
@@ -14,7 +12,7 @@ export default function PostItem({ hit, index }: PostItemProps): JSX.Element {
   const [isFave, setIsFave] = useState(hit.liked);
 
   const getLikedPosts = async (): Promise<Hit[]> => {
-    let hits = await localforage.getItem<Hit[]>(POSTS_KEY);
+    let hits: Hit[] = [];
     if (hits === null) hits = [];
     return hits;
   };
@@ -28,14 +26,10 @@ export default function PostItem({ hit, index }: PostItemProps): JSX.Element {
       .then((hits) => {
         const likedHits = [...hits];
         likedHits[index] = { ...hits[index], liked: !isFave };
-        localforage
-          .setItem(POSTS_KEY, likedHits)
-          .then(() => {
-            setIsFave(!isFave);
-          })
-          .catch((error) => { console.error(error); });
       })
-      .catch((error) => { console.error(error); });
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

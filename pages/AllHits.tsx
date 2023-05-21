@@ -1,9 +1,9 @@
 import React from "react";
-import ReactPaginate from "react-paginate";
 import PostItem from "@/components/PostItem";
 import styles from "./AllHits.module.css";
 
-import Dropdown, { type DropDownOption } from "@/components/Dropdown/Dropdown";
+import Dropdown from "@/components/Dropdown/Dropdown";
+import { OptionProps } from "@/components/Dropdown/DropDownOption";
 import { type Hit } from "models/Hit";
 
 interface AllHitsProps {
@@ -11,22 +11,19 @@ interface AllHitsProps {
 }
 
 export default function AllHits({ hits }: AllHitsProps): JSX.Element {
-  const options: DropDownOption[] = [
+  const options: OptionProps[] = [
     {
-      id: 1,
-      imageUrl: "/images/angular.png",
+      imgUrl: "/images/angular.png",
       label: "Angular",
       query: "https://hn.algolia.com/api/v1/search_by_date?query=angular&page=",
     },
     {
-      id: 2,
-      imageUrl: "/images/react.png",
+      imgUrl: "/images/react.png",
       label: "React",
       query: "https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=",
     },
     {
-      id: 3,
-      imageUrl: "/images/vue.png",
+      imgUrl: "/images/vue.png",
       label: "Vue",
       query: "https://hn.algolia.com/api/v1/search_by_date?query=vuejs&page=",
     },
@@ -41,24 +38,14 @@ export default function AllHits({ hits }: AllHitsProps): JSX.Element {
     <div className={styles.container}>
       <Dropdown options={options}></Dropdown>
       <div className={styles.postsContainer}>
-        {hits.map(
-          (hit, index): JSX.Element => (
-            <PostItem key={`post-item-${index}`} hit={hit} index={index} />
-          )
-        )}
+        <div className={styles.postsContainerGroup}>
+          {hits.map(
+            (hit, index): JSX.Element => (
+              <PostItem key={`post-item-${index}`} hit={hit} index={index} />
+            )
+          )}
+        </div>
       </div>
-      <ReactPaginate
-        containerClassName={styles.pagination}
-        activeClassName={styles.pagination__link__active}
-        breakLabel="..."
-        nextLabel=">"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="<"
-        renderOnZeroPageCount={null}
-        // className={styles.pagination}
-      />
     </div>
   );
 }

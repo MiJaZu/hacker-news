@@ -54,3 +54,10 @@
     width: 24px; 
     height: 24px;
 }
+
+@media (max-width: 600px) {
+    .container {
+      max-width: 300px;
+    }
+  }
+  

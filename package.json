@@ -10,15 +10,11 @@
     "lint": "eslint --fix . --ext .ts,.tsx"
   },
   "dependencies": {
-    "@types/localforage": "^0.0.34",
-    "@types/react-paginate": "^7.1.1",
-    "localforage": "^1.10.0",
     "moment": "^2.29.4",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.8.0",
-    "react-paginate": "^8.2.0"
+    "react-icons": "^4.8.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.4",

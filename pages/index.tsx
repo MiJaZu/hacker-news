@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import NavBar from "@/components/NavBar";
 import Tabs from "@/components/Tab";
-import AllHits from "../components/AllHits";
-import MyFaves from "../components/MyFaves";
-import localforage from "localforage";
-import { POSTS_KEY } from "utils/localStorage";
+import AllHits from "./AllHits";
+import MyFaves from "./MyFaves";
 import { type Hit } from "models/Hit";
 import { getHackerNews } from "services/HackerNewsApi";
 import { formatDate } from "utils/dateUtil";
@@ -23,7 +21,7 @@ export default function Home(): JSX.Element {
   ];
 
   const getHits = async (): Promise<Hit[]> => {
-    let localHits = await localforage.getItem<Hit[]>(POSTS_KEY);
+    let localHits: Hit[] = [];
     if (localHits === null) {
       localHits = [];
       const data = await getHackerNews();
@@ -45,18 +43,11 @@ export default function Home(): JSX.Element {
     getHits()
       .then(async (localHits) => {
         setHits(localHits);
-        await localforage.setItem(POSTS_KEY, localHits);
       })
       .catch((error) => {
         console.error(error);
       });
   }, [activeTab]);
-
-  useEffect(() => {
-    localforage.clear().catch((error) => {
-      console.error(error);
-    });
-  }, []);
 
   return (
     <>

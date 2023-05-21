@@ -1,68 +1,45 @@
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
-import NavBar from "@/components/NavBar";
-import Tabs from "@/components/Tab";
-import AllHits from "./AllHits";
-import MyFaves from "./MyFaves";
-import { type Hit } from "models/Hit";
-import { getHackerNews } from "services/HackerNewsApi";
-import { formatDate } from "utils/dateUtil";
+import React, { useEffect } from "react";
+import PostItem from "@/components/PostItem";
+import styles from "./index.module.css";
 
-export default function Home(): JSX.Element {
-  const headerTabs = ["All", "My Faves"];
+import Dropdown from "@/components/Dropdown/Dropdown";
+import { OptionProps } from "@/components/Dropdown/DropDownOption";
+import { useHitsProviderData } from "context/HitsProvider";
+import { Hit } from "models/Hit";
 
-  const [hits, setHits] = useState<Hit[]>([]);
+export default function AllHits(): JSX.Element {
+  const { hits } = useHitsProviderData();
 
-  const [activeTab, setActiveTab] = useState(0);
-
-  const panelTabs = [
-    <AllHits key={1} hits={hits} />,
-    <MyFaves key={2} hits={hits} />,
+  const options: OptionProps[] = [
+    {
+      imgUrl: "/images/angular.png",
+      label: "Angular",
+      query: "https://hn.algolia.com/api/v1/search_by_date?query=angular&page=",
+    },
+    {
+      imgUrl: "/images/react.png",
+      label: "React",
+      query: "https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=",
+    },
+    {
+      imgUrl: "/images/vue.png",
+      label: "Vue",
+      query: "https://hn.algolia.com/api/v1/search_by_date?query=vuejs&page=",
+    },
   ];
 
-  const getHits = async (): Promise<Hit[]> => {
-    let localHits: Hit[] = [];
-    if (localHits === null) {
-      localHits = [];
-      const data = await getHackerNews();
-      localHits = data.hits
-        .filter(
-          (hit) => hit.created_at_i !== "" && hit.title !== "" && hit.url !== ""
-        )
-        .map((hit) => ({
-          url: hit.url,
-          created_at_i: formatDate(hit.created_at_i),
-          title: hit.title,
-          liked: false,
-        }));
-    }
-    return localHits;
-  };
-
-  useEffect(() => {
-    getHits()
-      .then(async (localHits) => {
-        setHits(localHits);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [activeTab]);
-
   return (
-    <>
-      <Head>
-        <title>Hacker News</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main>
-        <NavBar title="HACKER NEWS" />
-        <Tabs
-          headerTabs={headerTabs}
-          panelTabs={panelTabs}
-          tabHandler={{ activeTab, setActiveTab }}
-        ></Tabs>
-      </main>
-    </>
+    <section className={styles.container}>
+      <Dropdown options={options}></Dropdown>
+      <div className={styles.postsContainer}>
+        <div className={styles.postsContainerGroup}>
+          {hits?.map(
+            (hit: Hit, index: number): JSX.Element => (
+              <PostItem key={`post-item-${index}`} hit={hit} index={index} />
+            )
+          )}
+        </div>
+      </div>
+    </section>
   );
 }

@@ -12,5 +12,5 @@ export default function useLocalStorage<T>(key: string, initialState: T) {
         if(items) setState(JSON.parse(items));
     },[]);
 
-    return [state, setState];   
+    return [state, setState] as const;   
 }

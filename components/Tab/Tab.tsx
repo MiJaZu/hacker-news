@@ -1,30 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "@/components/Tab/Tab.module.css";
+import { useRouter } from "next/navigation";
 
-interface TabHandler {
-  activeTab: number;
-  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
-}
+export type TabHeader = {
+  headerName: string;
+  route: string;
+};
 
-interface TabsProps {
-  headerTabs: string[];
-  panelTabs: JSX.Element[];
-  tabHandler: TabHandler;
-}
+type TabsProps = {
+  tabHeaders: TabHeader[];
+};
 
-export default function Tab({
-  headerTabs,
-  panelTabs,
-  tabHandler: { activeTab, setActiveTab },
-}: TabsProps): JSX.Element {
-  const handleToggle = (index: number): void => {
-    setActiveTab(index);
-  };
-
+export default function Tab({ tabHeaders }: TabsProps): JSX.Element {
+  const [activeTab, setActiveTab] = useState(0);
+  const router = useRouter();
   return (
     <div className={styles.container}>
       <ul className={styles.menu}>
-        {headerTabs.map((headerTab, index) => (
+        {tabHeaders.map(({ headerName, route }: TabHeader, index) => (
           <li
             key={`tab-header-${index}`}
             className={
@@ -33,14 +26,15 @@ export default function Tab({
                 : `${styles.menuItem}`
             }
             onClick={() => {
-              handleToggle(index);
+              setActiveTab(index);
+              router.push(route);
             }}
           >
-            {headerTab}
+            {headerName}
           </li>
         ))}
       </ul>
-      {panelTabs.map((panelTab, index) => activeTab === index && panelTab)}
+      {/* {panelTabs.map((panelTab, index) => activeTab === index && panelTab)} */}
     </div>
   );
 }

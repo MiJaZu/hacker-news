@@ -1,15 +1,12 @@
 import React from "react";
-import { type Hit } from "models/Hit";
 import styles from "./Myfaves.module.css";
 import PostItem from "@/components/PostItem";
+import { useHitsProviderData } from "context/HitsProvider";
 
-interface MyFavesProps {
-  hits: Hit[];
-}
-
-export default function MyFaves({ hits }: MyFavesProps): JSX.Element {
+export default function MyFaves(): JSX.Element {
+  const { hits } = useHitsProviderData();
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.postsContainer}>
         {hits
           .filter((hit) => hit.liked)
@@ -23,6 +20,6 @@ export default function MyFaves({ hits }: MyFavesProps): JSX.Element {
             )
           )}
       </div>
-    </div>
+    </section>
   );
 }

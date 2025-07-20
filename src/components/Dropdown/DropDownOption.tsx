@@ -1,5 +1,3 @@
-// import styles from "./Dropdown.module.css";
-
 export type OptionProps = {
   imgUrl: string;
   label: string;

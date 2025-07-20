@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FaHeart, FaRegHeart, FaRegClock } from 'react-icons/fa';
 import { type Hit } from '@/models/Hit';
 import { useHitsProviderData } from '@/context/HitsProviderContext';
+import { getTimeAgo } from '@/utils/dateUtils';
 
 interface PostItemProps {
   hit: Hit;
@@ -34,10 +35,12 @@ export default function NewsItem({ hit }: PostItemProps) {
       className="flex border-1 border-solid border-gray-200 rounded-md hover:opacity-[0.7] justify-between"
       rel="noreferrer"
     >
-      <div className="px-2.5 py-5 w-full">
-        <div className="flex items-center h-8">
+      <div className="px-4 py-5 w-full ">
+        <div className="flex items-center h-8 gap-1">
           <FaRegClock />
-          <p>{hit.created_at_i} ago by author</p>
+          <p>
+            {getTimeAgo(hit.created_at_i)} ago by {hit.author}
+          </p>
         </div>
         <div>{hit.title ?? hit.story_title}</div>
       </div>

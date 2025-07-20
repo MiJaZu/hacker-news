@@ -1,25 +1,15 @@
 'use client';
-import React, { JSX } from 'react';
-// import PostItem from "@/components/PostItem";
-// import { useHitsProviderData } from "@/context/HitsProvider";
 
-export default function MyFaves(): JSX.Element {
-  //   const { hits } = useHitsProviderData();
+import NewsList from '@/components/NewsList';
+import { useHitsProviderData } from '@/context/HitsProviderContext';
+
+export default function MyFaves() {
+  const { faves } = useHitsProviderData();
+  const myFaves = Object.values(faves);
+
   return (
-    <section className="w-full flex flex-col  mt-28">
-      <div className="w-full h-full flex flex-wrap  items-center justify-center">
-        {/* {hits
-          .filter((hit) => hit.liked)
-          .map(
-            (hit, index): JSX.Element => (
-              <PostItem
-                key={`liked-post-item-${index}`}
-                hit={hit}
-                index={index}
-              />
-            )
-          )} */}
-      </div>
+    <section className="flex flex-col w-10/12  mx-auto my-8">
+      <NewsList hits={myFaves} />
     </section>
   );
 }

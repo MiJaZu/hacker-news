@@ -2,14 +2,12 @@
 
 import Dropdown from '@/components/Dropdown/Dropdown';
 import { OptionProps } from '@/components/Dropdown/DropDownOption';
-import NewsItem from '@/components/NewsItem';
-import Spinner from '@/components/Spinner';
+import NewsList from '@/components/NewsList';
 import FilterProvider from '@/context/FilterContext';
 import { useHitsProviderData } from '@/context/HitsProviderContext';
-import { Hit } from '@/models/Hit';
 
 export default function Home() {
-  const { hits, fetchHits, isLoading } = useHitsProviderData();
+  const { hits, faves, fetchHits, isLoading } = useHitsProviderData();
 
   const options: OptionProps[] = [
     {
@@ -29,21 +27,20 @@ export default function Home() {
     },
   ];
 
+  const addedFaves = hits.map((hit) => {
+    let liked = false;
+    if (faves[hit.objectID]) liked = faves[hit.objectID].liked;
+    return {
+      ...hit,
+      liked,
+    };
+  });
+
   return (
     <FilterProvider refetch={fetchHits}>
       <section className="flex flex-col w-10/12  mx-auto my-8">
         <Dropdown options={options}></Dropdown>
-        <div className="flex justify-center mt-8">
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-5">
-              {hits?.map((hit: Hit, index: number) => (
-                <NewsItem key={`post-item-${index}`} hit={hit} index={index} />
-              ))}
-            </div>
-          )}
-        </div>
+        <NewsList hits={addedFaves} isLoading={isLoading} />
       </section>
     </FilterProvider>
   );

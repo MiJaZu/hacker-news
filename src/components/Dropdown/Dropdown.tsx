@@ -22,7 +22,6 @@ export default function Dropdown({ options }: DropdownProps) {
   const handleClick = (option: React.ReactNode, label: string) => {
     setCurrent(option);
     updateFilterData({ ...filter, tech: label });
-    console.log('Selected: ', label);
     setIsOpen(false);
   };
 

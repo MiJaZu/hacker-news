@@ -39,7 +39,6 @@ export default function FilterProvider({ children, refetch }: FilterProviderProp
 
   const updateFilterData = (newFilter: Filter) => {
     setFilter(newFilter);
-    console.log('updated', newFilter);
   };
 
   useEffect(() => {

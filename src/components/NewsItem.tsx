@@ -10,7 +10,7 @@ interface PostItemProps {
   index: number;
 }
 
-export default function NewsItem({ hit, index }: PostItemProps) {
+export default function NewsItem({ hit }: PostItemProps) {
   const [isLiked, setIsLiked] = useState(hit.liked);
   const { setFaves } = useHitsProviderData();
 

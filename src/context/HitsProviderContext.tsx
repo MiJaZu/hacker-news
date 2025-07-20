@@ -31,8 +31,9 @@ export const HITS_KEY = 'hits';
 export const FAVES_KEY = 'faves';
 
 export default function HitsProvider({ children }: HitsProviderProps) {
-  const [hits, setHits] = useLocalStorage<Hit[]>(HITS_KEY, []);
+  // const [hits, setHits] = useLocalStorage<Hit[]>(HITS_KEY, []);
   const [faves, setFaves] = useLocalStorage<Faves>(FAVES_KEY, {});
+  const [hits, setHits] = useState<Hit[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { filter } = useFilterData();
@@ -49,6 +50,15 @@ export default function HitsProvider({ children }: HitsProviderProps) {
     }
   };
 
+  const addFave = (newFave: Hit) => {
+    if (faves[newFave.objectID]) {
+      delete faves[newFave.objectID];
+    } else {
+      faves[newFave.objectID] = { ...newFave, liked: true };
+    }
+    setFaves({ ...faves });
+  };
+
   useEffect(() => {
     fetchHits(filter);
   }, []);
@@ -61,9 +71,7 @@ export default function HitsProvider({ children }: HitsProviderProps) {
         isLoading,
         setHits: (newHits) => setHits(newHits),
         setFaves: (newFave) => {
-          if (faves[newFave.objectID]) delete faves[newFave.objectID];
-          else faves[newFave.objectID] = { ...newFave, liked: true };
-          setFaves({ ...faves });
+          addFave(newFave);
         },
         fetchHits,
       }}

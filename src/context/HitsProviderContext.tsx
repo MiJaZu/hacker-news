@@ -3,7 +3,7 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 import { Hit, Faves } from '@/models/Hit';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getHackerNews } from '@/services/HackerNewsApi';
-import { useFilterData } from '@/context/Context';
+import { Filter, useFilterData } from '@/context/FilterContext';
 
 export type HitsProviderData = {
   hits: Hit[];
@@ -11,7 +11,7 @@ export type HitsProviderData = {
   setHits: (newHits: Hit[]) => void;
   setFaves: (newFaves: Hit) => void;
   isLoading: boolean;
-  fetchHits: () => Promise<void>;
+  fetchHits: (filter: Filter) => Promise<void>;
 };
 
 type HitsProviderProps = {
@@ -37,10 +37,10 @@ export default function HitsProvider({ children }: HitsProviderProps) {
   const [error, setError] = useState<string | null>(null);
   const { filter } = useFilterData();
 
-  const fetchHits = async () => {
+  const fetchHits = async (filter: Filter) => {
     try {
       setIsLoading(true);
-      const data = await getHackerNews<Hit>(filter.tech);
+      const data = await getHackerNews<Hit>(filter);
       setHits(data.hits);
     } catch (e) {
       setError('Error when loading data');
@@ -50,12 +50,8 @@ export default function HitsProvider({ children }: HitsProviderProps) {
   };
 
   useEffect(() => {
-    fetchHits();
+    fetchHits(filter);
   }, []);
-
-  useEffect(() => {
-    if (filter.tech !== 'Select your news') fetchHits();
-  }, [filter.tech]);
 
   return (
     <HitsContext.Provider

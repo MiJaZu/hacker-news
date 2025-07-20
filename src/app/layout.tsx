@@ -2,7 +2,7 @@
 import NavBar from '@/components/NavBar';
 import Head from 'next/head';
 import './globals.css';
-import HitsProvider from '@/hooks/useHitsProvider';
+import HitsProvider from '@/context/HitsProviderContext';
 
 export default function RootLayout({
   title,

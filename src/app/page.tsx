@@ -3,11 +3,13 @@
 import Dropdown from '@/components/Dropdown/Dropdown';
 import { OptionProps } from '@/components/Dropdown/DropDownOption';
 import NewsItem from '@/components/NewsItem';
-import { useHitsProviderData } from '@/hooks/useHitsProvider';
+import Spinner from '@/components/Spinner';
+import FilterProvider from '@/context/FilterContext';
+import { useHitsProviderData } from '@/context/HitsProviderContext';
 import { Hit } from '@/models/Hit';
 
 export default function Home() {
-  const { hits } = useHitsProviderData();
+  const { hits, fetchHits, isLoading } = useHitsProviderData();
 
   const options: OptionProps[] = [
     {
@@ -28,13 +30,21 @@ export default function Home() {
   ];
 
   return (
-    <section className="flex flex-col w-10/12  mx-auto my-8">
-      <Dropdown options={options}></Dropdown>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-5 mt-8">
-        {hits?.map((hit: Hit, index: number) => (
-          <NewsItem key={`post-item-${index}`} hit={hit} index={index} />
-        ))}
-      </div>
-    </section>
+    <FilterProvider refetch={fetchHits}>
+      <section className="flex flex-col w-10/12  mx-auto my-8">
+        <Dropdown options={options}></Dropdown>
+        <div className="flex justify-center mt-8">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-5">
+              {hits?.map((hit: Hit, index: number) => (
+                <NewsItem key={`post-item-${index}`} hit={hit} index={index} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </FilterProvider>
   );
 }

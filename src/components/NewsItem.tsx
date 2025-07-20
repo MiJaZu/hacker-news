@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { FaHeart, FaRegHeart, FaRegClock } from 'react-icons/fa';
 import { type Hit } from '@/models/Hit';
-import { useHitsProviderData } from '@/hooks/useHitsProvider';
+import { useHitsProviderData } from '@/context/HitsProviderContext';
 
 interface PostItemProps {
   hit: Hit;
@@ -34,7 +34,6 @@ export default function NewsItem({ hit, index }: PostItemProps) {
       className="flex border-1 border-solid border-gray-200 rounded-md hover:opacity-[0.7] justify-between"
       rel="noreferrer"
     >
-      <>{console.log('HIT: ', hit)}</>
       <div className="px-2.5 py-5 w-full">
         <div className="flex items-center h-8">
           <FaRegClock />

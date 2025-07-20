@@ -1,3 +1,4 @@
+import { Filter } from '@/context/FilterContext';
 import { type Hit } from '@/models/Hit';
 
 export interface ApiResponse<T> {
@@ -5,11 +6,12 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export async function getHackerNews<T>(
-  query: string = '',
-  page: number = 0
-): Promise<ApiResponse<T>> {
+export async function getHackerNews<T>({
+  tech = '',
+  // page: number = 0
+}: Filter): Promise<ApiResponse<T>> {
+  const page = 0;
   return await (
-    await fetch(`https://hn.algolia.com/api/v1/search?query=${query}&page=${page}`)
+    await fetch(`https://hn.algolia.com/api/v1/search?query=${tech}&page=${page}`)
   ).json();
 }

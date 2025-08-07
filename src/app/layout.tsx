@@ -4,18 +4,12 @@ import Head from 'next/head';
 import './globals.css';
 import HitsProvider from '@/context/HitsProviderContext';
 
-export default function RootLayout({
-  title,
-  children,
-}: Readonly<{
-  title: string;
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children}: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
         <Head>
-          <title>Hacker News - {title}</title>
+          <title>Hacker News</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <NavBar title="HACKER NEWS" />
